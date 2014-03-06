@@ -13,4 +13,10 @@ Route::delete ( 'users/{id}', 'UserController@deleteUser' );
 
 Route::get ( 'users/{id}', 'UserController@showUser' );
 
+Route::get ( 'create', 'UserController@createUser' );
+
+Route::post ( 'create', 'UserController@saveUser' );
+
 Route::post ( 'users/{id}', 'UserController@updateUser' );
+
+Route::resource('user', 'UserController2');
