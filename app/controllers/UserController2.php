@@ -1,11 +1,5 @@
 <?php
 class UserController2 extends \BaseController {
-	
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
 	public function index() {
 		$users = User::all ()->sortBy ( 'id' );
 		return View::make ( 'user.index' )->with ( 'users', $users );
@@ -32,8 +26,13 @@ class UserController2 extends \BaseController {
 		$user->email = Input::get ( 'email' );
 		$user->birthday = date ( 'Y-m-d', strtotime ( Input::get ( 'birthday' ) ) );
 		$user->created_at = time ();
-		$user->save ();
-		return Redirect::route ( 'user.index' )->with ( 'flash', 'The new user has been created' );
+		$validator = $this->getValidatorForUser($user);
+		if ($validator->passes()) {
+			$user->save ();
+			return Redirect::route ( 'user.index' )->with ( 'flash', 'The new user has been created' );
+		} else {
+			return Redirect::route ( 'user.create' )->withInput()->withErrors($validator);
+		}
 	}
 	
 	/**
@@ -70,7 +69,17 @@ class UserController2 extends \BaseController {
 		$user->last_name = Input::get ( 'last_name', $user->last_name );
 		$user->email = Input::get ( 'email', $user->email );
 		$user->birthday = date ( 'Y-m-d', strtotime ( Input::get ( 'birthday', $user->birthday ) ) );
-		$user->save ();
+		$validator = $this->getValidatorForUser($user);
+		if ($validator->passes()) {
+			$user->save ();
+		} else {
+			$messages = $validator->messages();
+			$result = '';
+			foreach ($messages->all() as $message) {
+				$result.$message.'<br>';
+			}
+			return result;
+		}
 		return $this->index ();
 	}
 	
@@ -84,5 +93,19 @@ class UserController2 extends \BaseController {
 		$user = User::find ( $id );
 		$user->delete ();
 		return $this->index ();
+	}
+	
+	private function getValidatorForUser($user) {
+		return $validator = Validator::make ( array (
+				'first_name' => $user->first_name,
+				'last_name' => $user->last_name,
+				'birthday' => $user->birthday,
+				'email' => $user->email 
+		), array (
+				'first_name' => 'required',
+				'last_name' => 'required',
+				'birthday' => 'date',
+				'email' => 'email' 
+		) );
 	}
 }

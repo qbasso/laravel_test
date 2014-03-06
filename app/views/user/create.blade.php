@@ -1,5 +1,8 @@
 @extends('main') 
 @section('content') 
+@foreach($errors->all() as $error)
+	{{ $error }} <br>
+@endforeach
 <p>
 {{ Form::open(array('url' => 'user', 'method' => 'post')) }}
 	{{ Form::label('first_name', 'First Name') }}
