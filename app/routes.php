@@ -7,16 +7,8 @@ Route::get ( '/', function () {
 	return View::make ( 'hello' );
 } );
 
-Route::get ( 'users', 'UserController@getIndex' );
+Route::resource('user', 'UserController');
 
-Route::delete ( 'users/{id}', 'UserController@deleteUser' );
+Route::resource('user-json', 'UserJsonController');
 
-Route::get ( 'users/{id}', 'UserController@showUser' );
-
-Route::get ( 'create', 'UserController@createUser' );
-
-Route::post ( 'create', 'UserController@saveUser' );
-
-Route::post ( 'users/{id}', 'UserController@updateUser' );
-
-Route::resource('user', 'UserController2');
+Route::resource('item-json', 'ItemController');

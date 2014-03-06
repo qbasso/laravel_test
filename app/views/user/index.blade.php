@@ -6,12 +6,7 @@
 	$user->email }} : {{ $user->birthday }} 
 	{{ Form::button( 'Delete',
 	array('class' => 'delete-button', 'data-userid' => $user->id )) }}
-	<!-- 	{{ Form::open(array('action' => array('UserController@showUser', $user->id), 'method'=>'get')) }} -->
-	<!-- 	{{ Form::submit('Edit') }} -->
 	{{ HTML::link(URL::to('user/'.$user->id.'/edit'), 'Edit') }}	
-<!-- 	{{ Form::button( 'Edit', array('class' => 'edit-button', 'data-userid'
- 	=> $user->id, 'onclick' => URL::to('users/'.$user->id) )) }}
-     {{ Form::close() }}  -->
 </p>
 @endforeach
 {{ HTML::link(URL::to('user/create'), 'Add user') }} 
@@ -24,7 +19,7 @@ jQuery(document).ready( function( $ ) {
         
     	var userid = $(this).data('userid');
     	$.ajax({
-            url: 'users/'+userid,
+            url: 'user/'+userid,
             type: 'DELETE',
             success: function(result) {
             	$('#content').empty();

@@ -8,8 +8,8 @@ class DatabaseSeeder extends Seeder {
 	 */
 	public function run() {
 		Eloquent::unguard ();
-		
 		$this->call('UserSeeder');
+		$this->call('ItemSeeder');
 	}
 }
 class UserSeeder extends Seeder {
@@ -23,6 +23,23 @@ class UserSeeder extends Seeder {
 					'email' => 'j'.$i.'p@gmail.com',
 					'created_at' => time () 
 			) );
+		}
+	}
+}
+
+class ItemSeeder extends Seeder {
+	public function run() {
+		DB::table ( 'item' )->delete ();
+		$currentUserId = 1;
+		for($i = 1; $i < 100; $i ++) {
+			Item::create ( array (
+			'name' => 'Item'.$i,
+			'quantity' => $i,				
+			'user_id' => $currentUserId
+			) );
+			if ($i % 6 == 0) {
+				$currentUserId++;
+			}
 		}
 	}
 }

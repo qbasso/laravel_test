@@ -5,10 +5,9 @@
 </head>
 <body>
 	<div id="content">
-		@yield('content')
-		<script type="text/javascript"
-			src="{{ asset('../js/jquery-2.1.0.js') }}"></script>
-		@yield('jquery')
-	</div>
+	@yield('content') 
+	@yield('jquery')</div>
+	<script type="text/javascript"
+		src="{{ asset('../js/jquery-2.1.0.js') }}"></script>
 </body>
 </html>
